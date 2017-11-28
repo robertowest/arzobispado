@@ -1,0 +1,64 @@
+SELECT pt.id, pt.name, pc.campo, pc.tipo, pcc.registro, pcc.contenido
+FROM protocolo_campo_contenido pcc
+LEFT JOIN protocolo_campos pc ON pc.id = pcc.protocolo_campo_id
+LEFT JOIN protocolo_tipo pt ON pt.id = pc.protocolo_tipo_id
+
+
+
+SELECT 
+    pt.id, 
+    pt.name,
+    pcc.registro,
+    MAX(CASE WHEN (pc.campo='Campo1') THEN pcc.contenido ELSE null END) AS campo1,
+    MAX(CASE WHEN (pc.campo='Campo2') THEN pcc.contenido ELSE null END) AS campo2,
+    Max(CASE WHEN (pc.campo='Campo3') THEN pcc.contenido ELSE null END) AS campo3
+FROM protocolo_campo_contenido pcc
+LEFT JOIN protocolo_campos pc ON pc.id = pcc.protocolo_campo_id
+LEFT JOIN protocolo_tipo pt ON pt.id = pc.protocolo_tipo_id
+GROUP BY pt.id, pt.name, pcc.registro
+
+
+
+CREATE PROCEDURE myPivot(
+    in tableA varchar(255),
+    in columnA varchar(255),
+    in tableB varchar(255),
+    in columnB varchar(255)
+)
+BEGIN
+
+    set @sql = NULL;
+    set @sql = CONCAT('select group_concat(distinct concat(
+        \'SUM(IF(', 
+        columnA, 
+        ' = \'\'\',',
+        columnA,
+        ',\'\'\', 1, 0)) AS \'\'\',',
+        columnA, 
+        ',\'\'\'\') separator \', \') from ',
+        tableA, ' into @sql');
+    -- select @sql;
+
+    PREPARE stmt FROM @sql;
+    EXECUTE stmt;
+
+    DEALLOCATE PREPARE stmt;
+    -- select @sql;
+    /// Data access layer class for DocumentoDAL
+
+    SET @sql = CONCAT('SELECT p.', 
+        columnB, 
+        ', ', 
+        @sql, 
+        ' FROM ', tableB, ' p GROUP BY p.',
+        columnB,'');
+
+    -- select @sql;
+
+    /* */
+    PREPARE stmt FROM @sql;
+    EXECUTE stmt;
+    /* */
+    DEALLOCATE PREPARE stmt;
+
+END

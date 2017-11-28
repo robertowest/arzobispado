@@ -1,0 +1,29 @@
+<?= $this->Form->create($registro->Documents, array('role' => 'form',
+                                         'class' => 'form-horizontal')) ?>
+    <div class="box-body">
+        <fieldset>
+            <?php
+            if ( isset($current_user) )
+            { $user_id = 1; }
+            else
+            { $user_id = $current_user['id']; }
+            $nombre_archivo = $registro->año.'-'.str_pad($registro->protocolo, 4, '0', STR_PAD_LEFT);
+
+            echo $this->Form->control('model', ['type' => 'hidden', 'value' => $this->name]);
+            echo $this->Form->control('model_id', ['type' => 'hidden', 'value' => $registro->id]);
+            echo $this->Form->control('user_id', ['type' => 'hidden', 'value' => $user_id]);
+
+            echo $this->Form->control('name', ['autofocus' => 'true',
+                                               'label' => 'Etiqueta',
+                                               'value' => $nombre_archivo,
+                                               'style'=>'width: 150px',
+                                               'placeholder' => 'nombre del protocolo']);
+            echo $this->Form->control('file', ['label' => 'Archivo', 'type'=>'file']);
+            ?>
+        </fieldset>
+    </div>
+
+    <div class="box-footer">
+        <?= $this->Form->button('Grabar', ['class' => 'btn pull-right']) ?>
+    </div>
+<?= $this->Form->end() ?>

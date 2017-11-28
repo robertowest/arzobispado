@@ -1,0 +1,45 @@
+<?= $this->Form->create($registro, array('role' => 'form',
+                                          'class' => 'form-horizontal')) ?>
+    <div class="box-body">
+        <fieldset>
+            <?php
+            echo $this->Form->control('sacerdote_id', ['options' => $sacerdotes,
+                                                       'style'=>'width: 400px']);
+            echo $this->Form->control('funcion_id', ['label' => 'Función',
+                                                     'options' => $funciones,
+                                                     'style'=>'width: 400px']);
+            echo $this->Form->control('institucion_id', ['label' => 'Institución',
+                                                         'options' => $instituciones,
+                                                         'style'=>'width: 400px',
+                                                         'conditions' => ['id' => '1'],]);
+            echo $this->Form->control('falta', ['empty' => true,
+                                                'label' => 'Fecha Alta',
+                                                'type' => 'date',
+                                                //'templates' => $date_template,
+                                                //'dateFormat' => 'DMY',
+                                                'minYear' => date('Y') - 80,
+                                                'maxYear' => date('Y'),
+                                                'hour' => false, 'minute' => false, 'second' => false, 'meridian' => false,
+                                                'orderYear' => 'desc',
+                                               ]);
+            echo $this->Form->control('protocolo', ['style'=>'width: 80px']);
+            echo $this->Form->control('fbaja', ['empty' => true,
+                                                'label' => 'Fecha Baja',
+                                                'type' => 'date',
+                                                'minYear' => date('Y') - 80,
+                                                'maxYear' => date('Y'),
+                                               ]);
+            echo $this->Form->control('orden', ['style'=>'width: 60px']);
+
+            echo $this->Form->control('file_name', ['disabled' => 'disabled',
+                                                    'label' => 'Archivo protocolar',
+                                                    'style'=>'width: 600px']);
+            echo $this->Form->control('file_name', ['label' => '','type' => 'file']);
+            ?>
+        </fieldset>
+    </div>
+
+    <div class="box-footer">
+        <?= $this->Form->button('Grabar', ['class' => 'btn pull-right']) ?>
+    </div>
+<?= $this->Form->end() ?>

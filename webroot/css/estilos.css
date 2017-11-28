@@ -1,0 +1,16 @@
+/* modificamos los estilos según nos convenga */
+/* IMPORTANTE: este archivos de estilos, debe ser el último en cargarse */
+
+.actions-btn1 {
+    width: 100px;
+}
+
+/* sacerdotes */
+.actions-btn2 {
+    width: 130px;
+}
+
+/* fojas */
+.actions-btn3 {
+    width: 180px;
+}
